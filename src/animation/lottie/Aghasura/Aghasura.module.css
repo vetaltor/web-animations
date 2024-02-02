@@ -1,0 +1,14 @@
+.lottie {
+  max-width: 800px;
+  margin: 0 auto;
+	/* max-width: 500px;
+	height: 400vh; */
+	/*position: sticky;
+	top: 0;*/
+}
+
+/* .lottie :global(svg) {
+	position: sticky;
+	top: 0;
+	height: 100vh !important;
+} */

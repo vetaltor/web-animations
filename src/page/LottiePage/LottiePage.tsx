@@ -1,4 +1,4 @@
-import { Aghasura } from '../../animation/lottie/Aghasura/Aghasura';
+import { Aghasura } from '../../animation/lottie/Aghasura';
 
 export function LottiePage() {
   return (
