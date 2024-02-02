@@ -1,0 +1,1 @@
+export { LottiePage } from './LottiePage';

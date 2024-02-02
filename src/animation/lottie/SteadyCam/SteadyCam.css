@@ -1,0 +1,25 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.empty {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  background-color: antiquewhite;
+}
+
+.lottie {
+  /* max-width: 500px; */
+  height: 300vh;
+  /*position: sticky;
+    top: 0;*/
+}
+
+.lottie svg {
+  position: sticky;
+  top: 0;
+  height: 100vh !important;
+}

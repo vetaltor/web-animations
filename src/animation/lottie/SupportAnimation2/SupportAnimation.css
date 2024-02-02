@@ -1,0 +1,16 @@
+.support__container {
+	height: 300vh;
+}
+
+.support__lottie {
+	max-width: 500px;
+	height: 300vh;
+	/*position: sticky;
+	top: 0;*/
+}
+
+.support__lottie svg {
+	position: sticky;
+	top: 0;
+	height: 100vh !important;
+}
