@@ -78,10 +78,10 @@ export function Sage() {
       const currentTime = (totalDurationSeconds / 100) * percentage;
       if (rive) {
         rive.scrub('Timeline 1', currentTime);
-        if (percentage >= 24 && percentage <= 26 && direction === 'down') {
+        if (percentage >= 24 && percentage <= 34 && direction === 'down') {
           audioPool.playSample(0, 0, 0, 1);
         }
-        if (percentage >= 64 && percentage <= 66 && direction === 'down') {
+        if (percentage >= 64 && percentage <= 74 && direction === 'down') {
           audioPool.playSample(1);
         }
       }
