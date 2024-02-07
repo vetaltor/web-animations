@@ -8,7 +8,7 @@ import { HashRouter } from 'react-router-dom';
 export function App() {
   return (
     <div className="App">
-      <HashRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter>
         <Routes>
           <Route path="/lottie" element={<LottiePage />} />
           <Route path="/rive" element={<RivePage />} />
