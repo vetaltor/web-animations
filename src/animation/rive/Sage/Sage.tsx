@@ -11,20 +11,26 @@ import {
   Rive,
 } from '@rive-app/react-canvas';
 import riveWASMResource from '@rive-app/canvas/rive.wasm';
-import animation from './sage.riv';
+// import animation from './sage.riv';
+import animation from './final.riv';
 import walkAudio from './audio/walk.mp3';
 import halloAudio from './audio/hallo.mp3';
-import en from './locale/en.json';
-import ru from './locale/ru.json';
+// import en from './locale/en.json';
+// import ru from './locale/ru.json';
+import en from './locale/final/en.json';
+import ru from './locale/final/ru.json';
 import s from './Sage.module.css';
 import { useEffect } from 'react';
 import { AudioPool } from '../../../shared/audio/AudioPool';
-import { useScrollPercentage } from '../../../shared/hook/useScrollPercentage';
+import { useScrollListener } from '../../../shared/hook/useScrollListener';
 
 // preload wasm
 RuntimeLoader.setWasmUrl(riveWASMResource);
 
 const audioPool = new AudioPool([walkAudio, halloAudio]);
+
+let lastPercentage = 0;
+let prevTime = 0;
 
 export function Sage() {
   const riveParams = {
@@ -63,8 +69,9 @@ export function Sage() {
       console.log(rive);
       rive.on(EventType.RiveEvent, onRiveEvent);
       // rive.on(EventType.Advance, (evt: any) => {console.log(evt)});
-      rive.pause('Timeline 1');
-      rive.resizeDrawingSurfaceToCanvas();
+      rive.pause('Main');
+      // rive.play('Main');
+      // rive.resizeDrawingSurfaceToCanvas();
     }
   }, [rive]);
 
@@ -72,17 +79,39 @@ export function Sage() {
     audioPool.setup();
   }, []);
 
-  useScrollPercentage(
+  useScrollListener(
     (percentage, direction) => {
-      const totalDurationSeconds = 4;
+      const totalDurationSeconds = 6;
       const currentTime = (totalDurationSeconds / 100) * percentage;
+
       if (rive) {
-        rive.scrub('Timeline 1', currentTime);
+        if (Math.abs(lastPercentage - percentage) === 1) {
+          prevTime = (totalDurationSeconds / 100) * lastPercentage;
+          // const diff = (currentTime - prevTime) / 2;
+          // const addedTime = prevTime + diff;
+          const addedTimes = generatePoints(prevTime, currentTime, 2);
+          for (let i = 0; i < addedTimes.length; i++) {
+            // timeout(() => {
+              rive.scrub('Main', addedTimes[i]);
+            //   console.log(`${percentage}%`, `${addedTimes[i]}s`);
+            // }, i * 50);
+          }
+          // rive.scrub('Main', currentTime);
+          // console.log(`${percentage}%`, `${currentTime}s`);
+        } else {
+          rive.scrub('Main', currentTime);
+          // console.log(`${percentage}%`, `${currentTime}s`);
+        }
+
+        lastPercentage = percentage;
+
+        // rive.scrub('Main', currentTime);
+
         if (percentage >= 24 && percentage <= 34 && direction === 'down') {
-          audioPool.playSample(0, 0, 0, 1);
+          // audioPool.playSample(0, 0, 0, 1);
         }
         if (percentage >= 64 && percentage <= 74 && direction === 'down') {
-          audioPool.playSample(1);
+          // audioPool.playSample(1);
         }
       }
     },
@@ -166,3 +195,33 @@ function translateArtboard(
   }
   rive.pause();
 }
+
+function generatePoints(min: number, max: number, steps: number): number[] {
+  const step = (max - min) / steps;
+  const res = [];
+  for (let i = 1; i <= steps; i++) {
+    res.push(min + step * i)
+  }
+
+  return res;
+}
+
+function executeWithInterval(func: any, interval: number, times: number) {
+  let counter = 0;
+  const intervalId = setInterval(() => {
+    func();
+    counter++;
+    if (counter === times) {
+      clearInterval(intervalId);
+    }
+  }, interval);
+}
+
+function timeout(func: any, timeout: number) {
+  const id = setTimeout(() => {
+    func();
+    clearTimeout(id)
+  }, timeout);
+}
+
+

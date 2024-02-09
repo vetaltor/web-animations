@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 
-type UseScrollPercentageCallback = (
+type UseScrollListenerCallback = (
   percentage: number,
   direction: 'up' | 'down'
 ) => void;
 
-export function useScrollPercentage(
-  callback: UseScrollPercentageCallback,
+export function useScrollListener(
+  callback: UseScrollListenerCallback,
   deps: any[]
 ): void {
   let lastScrollTop = window.scrollY;
+  let lastPercentage = 0;
 
   useEffect(() => {
     const scrollListener = () => {
@@ -19,9 +20,17 @@ export function useScrollPercentage(
       const scrollPercentage = Math.round(
         (scrollTop / (totalHeight - windowHeight)) * 100
       );
+
+      if (lastPercentage === scrollPercentage) {
+        return;
+      }
+      lastPercentage = scrollPercentage;
+
       const direction = scrollTop > lastScrollTop ? 'down' : 'up';
       lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
       callback(scrollPercentage, direction);
+
     };
     window.addEventListener('scroll', scrollListener);
     return () => {
