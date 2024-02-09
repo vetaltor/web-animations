@@ -10,7 +10,10 @@ export function HomePage() {
           Lottie
         </Link>
         <Link className={LinkStyles.root} to="/rive">
-          Rive
+          Rive (scrub)
+        </Link>
+        <Link className={LinkStyles.root} to="/rive-blend">
+          Rive (blend)
         </Link>
       </nav>
     </div>

@@ -9,6 +9,7 @@ import {
   RiveEventPayload,
   RiveEventType,
   Rive,
+  useStateMachineInput,
 } from '@rive-app/react-canvas';
 import riveWASMResource from '@rive-app/canvas/rive.wasm';
 // import animation from './sage.riv';
@@ -19,7 +20,7 @@ import halloAudio from './audio/hallo.mp3';
 // import ru from './locale/ru.json';
 import en from './locale/final/en.json';
 import ru from './locale/final/ru.json';
-import s from './Sage.module.css';
+import s from './Blend.module.css';
 import { useEffect } from 'react';
 import { AudioPool } from '../../../shared/audio/AudioPool';
 import { useScrollListener } from '../../../shared/hook/useScrollListener';
@@ -32,16 +33,16 @@ const audioPool = new AudioPool([walkAudio, halloAudio]);
 let lastPercentage = 0;
 let prevTime = 0;
 
-export function Sage() {
+export function Blend() {
   const riveParams = {
     src: animation,
+    artboard: 'Blend',
     stateMachines: 'State Machine 1',
-    artboard: 'Main',
     layout: new Layout({
       fit: Fit.Contain,
       alignment: Alignment.TopCenter,
     }),
-    autoplay: false,
+    autoplay: true,
     onLoad: () => {},
   };
 
@@ -50,6 +51,11 @@ export function Sage() {
   };
 
   const { RiveComponent, rive } = useRive(riveParams, useRiveOptions);
+  const scrollInput = useStateMachineInput(
+    rive,
+    'State Machine 1',
+    'ScrollPercentage'
+  );
 
   const onRiveEvent = (riveEvent: Event) => {
     console.log(riveEvent);
@@ -70,14 +76,14 @@ export function Sage() {
       console.log(rive);
       rive.on(EventType.RiveEvent, onRiveEvent);
       // rive.on(EventType.Advance, (evt: any) => {console.log(evt)});
-      rive.pause('Main');
+      // rive.pause('Main');
       // rive.play('Main');
       // rive.resizeDrawingSurfaceToCanvas();
     }
   }, [rive]);
 
   useEffect(() => {
-    audioPool.setup();
+    // audioPool.setup();
   }, []);
 
   useScrollListener(
@@ -86,27 +92,9 @@ export function Sage() {
       const currentTime = (totalDurationSeconds / 100) * percentage;
 
       if (rive) {
-        // if (Math.abs(lastPercentage - percentage) === 1) {
-        //   prevTime = (totalDurationSeconds / 100) * lastPercentage;
-        //   // const diff = (currentTime - prevTime) / 2;
-        //   // const addedTime = prevTime + diff;
-
-        //   // const addedTimes = generatePoints(prevTime, currentTime, 2);
-        //   // for (let i = 0; i < addedTimes.length; i++) {
-        //   //   // timeout(() => {
-        //   //     rive.scrub('Main', addedTimes[i]);
-        //   //   //   console.log(`${percentage}%`, `${addedTimes[i]}s`);
-        //   //   // }, i * 50);
-        //   // }
-
-        //   rive.scrub('Main', currentTime);
-        //   // console.log(`${percentage}%`, `${currentTime}s`);
-        // } else {
-        //   rive.scrub('Main', currentTime);
-        //   // console.log(`${percentage}%`, `${currentTime}s`);
-        // }
-        rive.scrub('Main', currentTime);
-
+        if (scrollInput) {
+          scrollInput.value = percentage;
+        }
         lastPercentage = percentage;
 
         if (percentage >= 24 && percentage <= 34 && direction === 'down') {
@@ -148,35 +136,7 @@ export function Sage() {
               Ru
             </button>
           </header>
-          <RiveComponent
-            className={s.root}
-            onClick={() => {
-              if (!rive) {
-                return;
-              }
-              // rive.play();
-
-              // rive.scrub('Timeline 1', 1);
-              // rive.setTextRunValue(
-              //   'samurai has no goal',
-              //   'A samurai has no goal. There is only a way.'
-              // );
-
-              // rive?.pause('Timeline 1');
-              // rive?.scrub('Timeline 1', 4000);
-              // console.log(rive?.durations);
-              // console.log(rive?.frameCount);
-              // console.log(rive?.frameTimes);
-              // console.log(rive?.frameTime);
-              // console.log(rive?.animationNames);
-
-              // rive?.scrub();
-              // rive!.play();
-              // stateMachineLoadInput = rive.stateMachineInputs('State Machine 1')[0];
-              // stateMachineLoadInput.value = 1;
-              // console.log(rive.animationNames);
-            }}
-          />
+          <RiveComponent className={s.root} />
         </div>
       </div>
     </>
@@ -187,13 +147,11 @@ function translateArtboard(
   rive: Rive,
   translations: Record<string, string>
 ): void {
-  rive.play();
   for (const [key, value] of Object.entries(translations)) {
     if (rive.getTextRunValue(key)) {
       rive.setTextRunValue(key, value);
     }
   }
-  rive.pause();
 }
 
 function generatePoints(min: number, max: number, steps: number): number[] {

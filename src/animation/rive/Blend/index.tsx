@@ -1,0 +1,1 @@
+export { Blend } from './Blend';

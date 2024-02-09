@@ -17,9 +17,11 @@ export function useScrollListener(
       const scrollTop = window.scrollY;
       const windowHeight = window.innerHeight;
       const totalHeight = document.documentElement.scrollHeight;
-      const scrollPercentage = Math.round(
-        (scrollTop / (totalHeight - windowHeight)) * 100
-      );
+      // const scrollPercentage = Math.round(
+      //   (scrollTop / (totalHeight - windowHeight)) * 100
+      // );
+      const scrollPercentage =
+        (scrollTop / (totalHeight - windowHeight)) * 100;
 
       if (lastPercentage === scrollPercentage) {
         return;
