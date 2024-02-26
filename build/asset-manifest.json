@@ -1,17 +1,18 @@
 {
   "files": {
-    "main.css": "/web-animations/build/static/css/main.1f329f39.css",
-    "main.js": "/web-animations/build/static/js/main.5e792fe1.js",
+    "main.css": "/web-animations/build/static/css/main.5616e5bf.css",
+    "main.js": "/web-animations/build/static/js/main.019a55e6.js",
     "static/media/scrub-blend.riv": "/web-animations/build/static/media/scrub-blend.2dc5d861e4cae3df534b.riv",
-    "static/media/rive.wasm": "/web-animations/build/static/media/rive.afe0182da0aede7a622a.wasm",
+    "static/media/rive.wasm": "/web-animations/build/static/media/rive.321fa6576a88028abb04.wasm",
     "static/media/walk.mp3": "/web-animations/build/static/media/walk.7029539aa00e4d683e6b.mp3",
+    "static/media/ShantellSans-Light.woff2": "/web-animations/build/static/media/ShantellSans-Light.c50ca04087b4a16e169a.woff2",
     "static/media/hallo.mp3": "/web-animations/build/static/media/hallo.9b8172610cbba81c2ad2.mp3",
     "index.html": "/web-animations/build/index.html",
-    "main.1f329f39.css.map": "/web-animations/build/static/css/main.1f329f39.css.map",
-    "main.5e792fe1.js.map": "/web-animations/build/static/js/main.5e792fe1.js.map"
+    "main.5616e5bf.css.map": "/web-animations/build/static/css/main.5616e5bf.css.map",
+    "main.019a55e6.js.map": "/web-animations/build/static/js/main.019a55e6.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f329f39.css",
-    "static/js/main.5e792fe1.js"
+    "static/css/main.5616e5bf.css",
+    "static/js/main.019a55e6.js"
   ]
 }
