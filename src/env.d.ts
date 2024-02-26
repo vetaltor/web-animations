@@ -9,3 +9,4 @@ declare module '*.css' {
 declare module '*.wasm';
 declare module '*.riv';
 declare module '*.mp3';
+declare module '*.woff2';

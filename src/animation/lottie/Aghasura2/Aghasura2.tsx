@@ -2,13 +2,19 @@ import Lottie, { useLottie } from 'lottie-react';
 // import animation from './../../../assets/aghasura-final/data.json';
 // import animation from './../../../assets/aghasura-final/Canvas.json';
 // import animation from './../../../assets/aghasura-final/data.json';
-import animation from './../../../assets/aghasura-final/aghasura-audio.json';
+import animation from './../../../assets/data.json';
+// import animation from './../../../assets/aghasura-final/data-font.json';
+// import animation from './../../../assets/aghasura-final/data-null.json';
+// import animation from './../../../assets/aghasura-final/data-images.json';
 import s from './Aghasura2.module.css';
-import { Screen } from '../../../component/Screen';
 import { useScrollListener } from '../../../shared/hook/useScrollListener';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
-import { useCallback, useEffect } from 'react';
-import { Howl, Howler } from 'howler';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Howl } from 'howler';
+import { lottieJsonReplace, textUpdate } from '../../../shared/lottie-json-replace';
+import en from './i18n/en.json';
+import ru from './i18n/ru.json';
+
 // import type {AnimationItem} from '@lottiefiles/react-lottie-player';
 
 // const interactivity = {
@@ -22,32 +28,45 @@ import { Howl, Howler } from 'howler';
 //   ],
 // };
 
+let prevFrame = 0;
+
 export function Aghasura2() {
+  const currentTimeRef = useRef(0);
+
   const options = {
     animationData: animation,
-    assetsPath: '',
+    // path: process.env.PUBLIC_URL + '/assets/data-font.json',
+    // assetsPath: './build/images/',
     loop: false,
+    // autoplay: true,
     autoplay: false,
-    renderer: 'svg' as const,
+    renderer: 'svg',
     rendererSettings: {
-      canvas: {
-        progressiveLoad: true,
-      },
+      progressiveLoad: true,
+      preserveAspectRatio: 'xMidYMid slice',
     },
     audioFactory: createAudio,
   };
 
   const style = {
-    height: '100vh'
+    height: '100vh',
   };
 
-  const { View, goToAndStop } = useLottie(options as any, style);
+  const lottie = useLottie(options as any, style);
+  const { View, goToAndStop, animationItem } = lottie;
+  console.log(lottie);
 
   useScrollListener(
     (percentage, direction) => {
-      const totalDurationSeconds = 360;
-      const currentTime = (totalDurationSeconds / 100) * percentage;
-      goToAndStop(currentTime, true);
+      const totalFrames = 360;
+      const currentFrame = Math.round((totalFrames / 100) * percentage);
+      if (currentFrame === prevFrame) {
+        return;
+      }
+      // console.log(currentFrame);
+      prevFrame = currentFrame;
+      currentTimeRef.current = currentFrame;
+      goToAndStop(currentFrame, true);
       // console.log(currentTime);
 
       if (percentage >= 24 && percentage <= 34 && direction === 'down') {
@@ -74,11 +93,41 @@ export function Aghasura2() {
     svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
   }, []);
 
+  const setLanguage = (dictionary: any) => {
+    textUpdate(animationItem!.renderer, dictionary);
+
+    // repaint current frame
+    goToAndStop(currentTimeRef.current + 1, true);
+    goToAndStop(currentTimeRef.current, true);
+    // lottieJsonReplace(currentAnimation, dictionary);
+    // setAnimation({ ...currentAnimation });
+  };
+
   return (
     <>
       {/* <Screen>Scroll down</Screen> */}
       <div className={s.scrollContainer}>
         <div className={s.lottie}>
+          <header className={s.header}>
+            <button
+              className={s.button}
+              type="button"
+              onClick={() => {
+                setLanguage(en);
+              }}
+            >
+              En
+            </button>
+            <button
+              className={s.button}
+              type="button"
+              onClick={() => {
+                setLanguage(ru);
+              }}
+            >
+              Ru
+            </button>
+          </header>
           {/* <Player
           autoplay
             lottieRef={lottieCalback}
