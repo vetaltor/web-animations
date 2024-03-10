@@ -1,0 +1,44 @@
+.lottie {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+	/* max-width: 500px;
+	height: 400vh; */
+	/*position: sticky;
+	top: 0;*/
+}
+
+.scrollContainer {
+  position: relative;
+  height: 3000vh;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* .lottie :global(svg) {
+	position: sticky;
+	top: 0;
+	height: 100vh !important;
+} */
+
+.header {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 1;
+}
+
+.button {
+  background: #eabe74;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 30px;
+  border: 2px solid #d8a977;
+  text-transform: uppercase;
+  cursor: pointer;
+}

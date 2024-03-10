@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import s from './HomePage.module.css';
-import LinkStyles from './Link.module.css';
+import LinkStyles from '../../component/Link/Link.module.css';
 
 export function HomePage() {
   return (

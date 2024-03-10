@@ -11,10 +11,10 @@ export function App() {
     <div className="App">
       <HashRouter>
         <Routes>
-          <Route path="/lottie" element={<LottiePage />} />
-          <Route path="/rive" element={<Sage />} />
-          <Route path="/rive-blend" element={<Blend />} />
-          <Route path="/*" element={<HomePage />} />
+          <Route path="lottie/*" element={<LottiePage />} />
+          <Route path="rive/*" element={<Sage />} />
+          <Route path="rive-blend/*" element={<Blend />} />
+          <Route path="*" element={<HomePage />} />
         </Routes>
       </HashRouter>
     </div>

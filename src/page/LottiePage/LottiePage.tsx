@@ -1,26 +1,31 @@
-// import { Aghasura } from '../../animation/lottie/Aghasura';
+import { Route, Routes } from 'react-router-dom';
+import { Jagannath } from '../../animation/lottie/Jagannath';
 import { Aghasura2 } from '../../animation/lottie/Aghasura2';
-import { LottieWebSvg } from '../../animation/lottie/LottieWebSvg';
-import { useFont } from '../../shared/hook/useFont';
-import ShantellSans from './../../assets/font/ShantellSans-Light.woff2';
+import { Link } from 'react-router-dom';
+import s from './LottiePage.module.css';
+import LinkStyles from '../../component/Link/Link.module.css';
 
 export function LottiePage() {
-
-  const fontLoading = useFont({
-    url: ShantellSans as string,
-    family: 'ShantellSans-Light',
-    weight: '300',
-    style: 'normal'
-  });
-
-  console.log(fontLoading);
-
-  if (fontLoading !== 'loaded') {
-    return null;
-  }
-
   return (
-    <Aghasura2/>
-    // <LottieWebSvg/>
+    <Routes>
+      <Route path="aghasura2/*" element={<Aghasura2 />} />
+      <Route path="jagannath/*" element={<Jagannath />} />
+      <Route path="*" element={<PageContent />} />
+    </Routes>
+  );
+}
+
+function PageContent() {
+  return (
+    <div className={s.root}>
+      <nav className={s.nav}>
+        <Link className={LinkStyles.root} to="aghasura2">
+          Aghasura Demo
+        </Link>
+        <Link className={LinkStyles.root} to="jagannath">
+          Jagannath
+        </Link>
+      </nav>
+    </div>
   );
 }
