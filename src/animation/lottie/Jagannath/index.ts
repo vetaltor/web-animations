@@ -1,1 +1,0 @@
-export { Jagannath } from './Jagannath';
